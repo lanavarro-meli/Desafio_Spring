@@ -17,11 +17,19 @@ import java.util.stream.Collectors;
 public class ArticlesController {
     @Autowired
     private IProductService service;
+
+//    @GetMapping("/articles")
+//    public ResponseEntity<List<Product>> getAllArticles() {
+//        List<Product> products = service.getAllProducts();
+//        return ResponseEntity.ok().body(products);
+//    }
+
     @GetMapping("/articles")
-    public ResponseEntity<List<Product>> getAllArticles() {
-        List<Product> products = service.getAllProducts();
-        return ResponseEntity.ok().body(products);
+    public ResponseEntity<List<ProductDTO>> getByCategory(@RequestParam String category) {
+        List<ProductDTO> productsByCategory = service.getByCategory(category);
+        return ResponseEntity.ok().body(productsByCategory);
     }
+
     @PostMapping("/insert-articles-request")
     public ResponseEntity<List<ProductDTO>> createArticles(@RequestBody List<Product> articleList)
     {
