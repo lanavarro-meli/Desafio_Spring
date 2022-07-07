@@ -58,7 +58,6 @@ public class ProductRepository {
     private List<Product> readFile() {
         List<Product> list = wrapper.readJSONData(linkFile);
         return list;
-
     }
 
 }
