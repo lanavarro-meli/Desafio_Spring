@@ -32,7 +32,7 @@ public class ProductRepository {
         try {
             List<Product> list = readFile();
             return list.stream()
-                    .filter(p -> p.getCategory().equalsIgnoreCase(category)).collect(Collectors.toList());
+                    .filter(p -> p.getCategory().equals(category)).collect(Collectors.toList());
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

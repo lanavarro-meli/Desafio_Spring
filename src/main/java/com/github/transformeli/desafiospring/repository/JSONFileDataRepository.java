@@ -1,6 +1,7 @@
 package com.github.transformeli.desafiospring.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.transformeli.desafiospring.model.Product;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -17,7 +18,7 @@ public class JSONFileDataRepository<T> {
         ObjectMapper mapper = new ObjectMapper();
         List<?> list = null;
         try {
-            list = Arrays.asList(mapper.readValue(new File(linkFile), Object[].class));
+            list = Arrays.asList(mapper.readValue(new File(linkFile), Product[].class));
         } catch (Exception e) {
             list = new ArrayList<>();
         }

@@ -14,5 +14,8 @@ public class ProductDTO {
     private Integer quantity;
 
     public ProductDTO(Product p) {
+        this.productId = p.getProductId();
+        this.name = p.getName();
+        this.quantity = p.getQuantity();
     }
 }
