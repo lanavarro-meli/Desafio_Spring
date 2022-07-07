@@ -20,11 +20,12 @@ public class ArticlesController {
     @GetMapping("/articles")
     public ResponseEntity<List<ProductDTO>> getAllArticles() {
         List<Product> productsModel = service.getAllProducts();
-        List<ProductDTO> productsDTO =
-                productsModel
+        List<ProductDTO> productsDTO
+                = productsModel
                         .stream()
                         .map(ProductDTO::new)
-                        .collect(Collectors.toList());
+                        .collect(Collectors.toList())
+                ;
         return ResponseEntity.ok().body(productsDTO);
     }
     @PostMapping("/insert-articles-request")
