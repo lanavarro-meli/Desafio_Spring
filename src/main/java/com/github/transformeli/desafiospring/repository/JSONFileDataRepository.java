@@ -1,7 +1,6 @@
 package com.github.transformeli.desafiospring.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.type.CollectionType;
 import com.github.transformeli.desafiospring.model.Product;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.github.transformeli.desafiospring.dto.ProductDTO;
+import com.github.transformeli.desafiospring.exception.InternalServerException;
 import com.github.transformeli.desafiospring.exception.NotFoundException;
 import com.github.transformeli.desafiospring.model.Product;
 import com.github.transformeli.desafiospring.service.IJSONFileDataService;
@@ -14,6 +15,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class ProductRepository {
@@ -26,18 +28,15 @@ public class ProductRepository {
         return readFile();
     }
 
-    public Product getByCategory(String category) {
+    public List<Product> getByCategory(String category) {
         try {
             List<Product> list = readFile();
-            for (Product a : list) {
-                if (a.getCategory().equals(category)) {
-                    return a;
-                }
-            }
+            return list.stream()
+                    .filter(p -> p.getCategory().equalsIgnoreCase(category)).collect(Collectors.toList());
         } catch (Exception e) {
-
+            System.out.println(e.getMessage());
         }
-        throw new NotFoundException("Category not found");
+        throw new InternalServerException("Could not read the file");
     }
 
     public void saveProduct(Product product) {

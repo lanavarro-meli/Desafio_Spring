@@ -1,13 +1,12 @@
 package com.github.transformeli.desafiospring.service;
 
 import com.github.transformeli.desafiospring.dto.ProductDTO;
+import com.github.transformeli.desafiospring.exception.NotFoundException;
 import com.github.transformeli.desafiospring.model.Product;
 import com.github.transformeli.desafiospring.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,8 +21,18 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Product getByCategory(String category) {
-         return repo.getByCategory(category);
+    public List<ProductDTO> getByCategory(String category) {
+        try {
+            List<Product> productsByCategory = repo.getByCategory(category);
+            List<ProductDTO> treatedProducts = productsByCategory
+                    .stream().map(ProductDTO::new).collect(Collectors.toList());
+
+
+            return treatedProducts;
+        } catch(Exception e) {
+            System.out.println(e.getMessage());
+        }
+        throw new NotFoundException("Sorry, this category has no products yet");
     }
 
     @Override
@@ -32,25 +41,39 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public List<Product> getAllAsc() {
-       // repo.getAllArticles().stream().sorted((x,y) -> x.getName().length() - y.getName().length()).;
-        return null;
+    public List<Product> getAllByOrder(Integer order) {
+        List<Product> productList = getAllProducts();
+        List<Product> result = null;
+        switch (order) {
+            case 0: {
+                result = productList.stream()
+                        .sorted((p1, p2) -> p1.getName().compareTo(p2.getName()))
+                        .collect(Collectors.toList());
+                break;
+            }
+            case 1: {
+                result = productList.stream()
+                        .sorted((p1, p2) -> p2.getName().compareTo(p1.getName()))
+                        .collect(Collectors.toList());
+                break;
+            }
+            case 2: {
+                result = productList.stream()
+                        .sorted((p1, p2) -> p2.getPrice().compareTo(p1.getPrice()))
+                        .collect(Collectors.toList());
+                break;
+            }
+            case 3: {
+                result = productList.stream()
+                        .sorted((p1, p2) -> p1.getPrice().compareTo(p2.getPrice()))
+                        .collect(Collectors.toList());
+                break;
+            }
+        }
+        return result;
     }
 
     @Override
-    public List<Product> getAllDesc() {
-        return null;
-    }
-
-    @Override
-    public List<Product> getAllHigherPrice() {
-        return null;
-    }
-
-    @Override
-    public List<Product> getAllLowerPrice() {
-        return null;
-    }
     public List<ProductDTO> getAllArticles() {
         List<Product> productsModel = repo.getAllProducts();
         List<ProductDTO> productsDTO
@@ -60,7 +83,7 @@ public class ProductService implements IProductService {
                 .collect(Collectors.toList());
         return productsDTO;
     }
-    
+
     @Override
     public List<Product> getAllFromFilters(Map<String, String> params) {
         List<Product> allProducts = this.getAllProducts();

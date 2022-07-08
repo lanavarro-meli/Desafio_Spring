@@ -7,16 +7,11 @@ import java.util.List;
 import java.util.Map;
 
 public interface IProductService {
-
     public List<Product> getAllProducts();
-
     public List<ProductDTO> getAllArticles();
-
-    public Product getByCategory(String category);
+    public List<ProductDTO> getByCategory(String category);
     public void saveProduct(Product product);
-    public List<Product> getAllAsc();
-    public List<Product> getAllDesc();
-    public List<Product> getAllHigherPrice();
-    public List<Product> getAllLowerPrice();
+    public List<Product> getAllByOrder(Integer order);
     public List<Product> getAllFromFilters(Map<String, String> params);
+
 }
