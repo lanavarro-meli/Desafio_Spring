@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 public class ProductRepository {
 
     @Autowired
-    IJSONFileDataService wrapper;
+    private IJSONFileDataService wrapper;
     private final String linkFile = "src/main/resources/products.json";
 
     public List<Product> getAllProducts() {
@@ -55,7 +55,7 @@ public class ProductRepository {
     }
 
     private List<Product> readFile() {
-        List<Product> list = wrapper.readJSONData(linkFile);
+        List<Product> list = wrapper.readJSONData(linkFile,Product[].class);
         return list;
     }
 

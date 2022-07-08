@@ -23,7 +23,10 @@ public class ClientService implements IClientService {
 
     @Override
     public List<ClientDTO> getClientsByState(String state) {
-        return this.getAllClients(); // TODO
+        List<Client> clientByStateList = repo.getByState(state);
+        List<ClientDTO> treatedClient = clientByStateList.stream().map(ClientDTO::new).collect(Collectors.toList());
+        return treatedClient;
+
     }
 
     @Override

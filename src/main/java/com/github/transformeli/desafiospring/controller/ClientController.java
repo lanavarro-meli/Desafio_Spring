@@ -23,6 +23,11 @@ public class ClientController {
     {
         return new ResponseEntity<>(service.getAllClients(), HttpStatus.OK);
     }
+    @GetMapping("/clients//")
+    public ResponseEntity<List<ClientDTO>> getByState(@RequestParam String state){
+        List<ClientDTO> clientsByState  = service.getClientsByState(state);
+        return ResponseEntity.ok().body(clientsByState);
+    }
 
     @PostMapping("/clients")
     public ResponseEntity<ClientDTO> createClient(@Validated @RequestBody Client client)
